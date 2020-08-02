@@ -24,11 +24,29 @@ app.post("/repositories", (request, response) => {
     likes: 0,
   };
 
-  return response.json(repository);
+  repositories.push(repository);
+
+  return response.status(200).json(repository);
 });
 
 app.put("/repositories/:id", (request, response) => {
-  // TODO
+  const { title, url, techs } = response.body;
+  const { id } = response.params;
+  const repoIndex = repositories.findIndex((repo) => repo.id === id);
+
+  if (repoIndex < 0) {
+    return response.status(400).json("There is no such repository!");
+  }
+
+  const repository = repositories.find((repo) => repo.id === id);
+
+  repository.title = title;
+  repository.url = url;
+  repository.techs = techs;
+
+  repositories[repoIndex] = repository;
+
+  return response.status(200).json(repository);
 });
 
 app.delete("/repositories/:id", (request, response) => {
