@@ -30,8 +30,8 @@ app.post("/repositories", (request, response) => {
 });
 
 app.put("/repositories/:id", (request, response) => {
-  const { title, url, techs } = response.body;
-  const { id } = response.params;
+  const { title, url, techs } = request.body;
+  const { id } = request.params;
   const repoIndex = repositories.findIndex((repo) => repo.id === id);
 
   if (repoIndex < 0) {
